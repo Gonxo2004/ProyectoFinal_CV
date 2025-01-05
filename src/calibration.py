@@ -78,7 +78,7 @@ def save_calibrated_images(valid_imgs, valid_corners, patternSize, output_dir):
 if __name__ == "__main__":
     # Obtener una lista de todas las imágenes en el directorio especificado
     print(os.getcwdb())
-    image_files = glob.glob('../Lab_Project/data/images/calibration/*.jpg')
+    image_files = glob.glob('/Users/gonzaloborracherogarcia/ProyectoFinal_CV_REMOTE/data/images/*.jpg')
 
     # Cargar imágenes desde la lista de archivos
     imgs = load_images(image_files)
@@ -94,7 +94,7 @@ if __name__ == "__main__":
     corners_copy = copy.deepcopy(corners)
 
     # Definir criterios para refinar esquinas
-    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.01)
+    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 24, 0.01)
 
     # Convertir las imágenes a escala de grises
     imgs_gray = [cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) for img in imgs]
@@ -103,7 +103,7 @@ if __name__ == "__main__":
     corners_refined = refine_corners(imgs_gray, corners_copy, criteria)
 
     # Generar puntos del patrón de ajedrez para todas las imágenes
-    chessboard_points = [get_chessboard_points((7, 7), 30, 30) for _ in range(len(corners_refined))]
+    chessboard_points = [get_chessboard_points((7, 7), 24, 24) for _ in range(len(corners_refined))]
  
     # Filtrar datos válidos: mantener solo las detecciones adecuadas
     valid_corners = [cor[1] for cor in corners if cor[0]]
@@ -126,5 +126,5 @@ if __name__ == "__main__":
     print("Root mean squared reprojection error:\n", rms)
 
     # Guardar las imágenes con las esquinas detectadas
-    output_dir = "../Lab_Project/data/images/calibration_results"
+    output_dir = "/Users/gonzaloborracherogarcia/ProyectoFinal_CV_REMOTE/data/images/calibration_results"
     save_calibrated_images(valid_imgs, valid_corners, patternSize, output_dir)
